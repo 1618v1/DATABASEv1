@@ -1573,7 +1573,7 @@ self.onmessage = function(e){
         if (!row.isBatal && !row.lineBatal) { fQty += N(row.x.Jumlah); fSum += N(row.x.Total); fHpp += N(row.x.Jumlah) * N(row.x['Harga Beli']); }
         if (!seenF.has(row.faktur)) { seenF.add(row.faktur); fNominal += row.nominal; fProfit += row.profit; }
       });
-      return { name:'Faktur', title:'Rekap per Faktur', head:['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','HARGA BELI','HARGA JUAL','DISC','TOTAL','HPP','NOMINAL FAKTUR','PROFIT PER FAKTUR','PEMBAYARAN'], types:['c','d','t','t','t','w','t','n','c','rp','rp','rp','rp','rp','rp','rp','t'], rows, total:['TOTAL','','','','','','',fQty,'','','','','',fSum,fHpp,fNominal,fProfit,''] };
+      return { name:'Faktur', title:'Rekap per Faktur', head:['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','HARGA BELI','HARGA JUAL','DISC','TOTAL','HPP','NOM FAKTUR','PROFIT/FAKTUR','PEMBAYARAN'], types:['c','d','t','t','t','w','t','n','c','rp','rp','rp','rp','rp','rp','rp','t'], rows, total:['TOTAL','','','','','','',fQty,'','','','','',fSum,fHpp,fNominal,fProfit,''] };
     }
     if (tab === 's7'){
       const src = getFakturSourceRows().filter(x => isSambalRefill(x.Produk));
@@ -1597,7 +1597,7 @@ self.onmessage = function(e){
         shown.add(nf);
         return [i+1, x.Tanggal, nf, x.Sales||'', x.Customer||'', x.Alamat||'', x.Produk||'', q, x.Satuan||'', hb, N(x['Harga Jual']), N(x.Discount), tot, isFirst ? agg.nominal : '', isFirst ? agg.profit : '', x.Pembayaran||''];
       });
-      return { name:'Sambal_Refill', title:'Laporan Khusus Sambal Refill 600ml', head:['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','HARGA BELI','HARGA JUAL','DISC','TOTAL','NOMINAL FAKTUR','PROFIT PER FAKTUR','PEMBAYARAN'], types:['c','d','t','t','t','w','t','n','c','rp','rp','rp','rp','rp','rp','t'], rows, total:['TOTAL','','','','','','',totalQty,'','','','',totalNominal,totalNominal,totalProfit,''] };
+      return { name:'Sambal_Refill', title:'Laporan Khusus Sambal Refill 600ml', head:['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','HARGA BELI','HARGA JUAL','DISC','TOTAL','NOM FAKTUR','PROFIT/FAKTUR','PEMBAYARAN'], types:['c','d','t','t','t','w','t','n','c','rp','rp','rp','rp','rp','rp','t'], rows, total:['TOTAL','','','','','','',totalQty,'','','','',totalNominal,totalNominal,totalProfit,''] };
     }
     return null;
   }
@@ -1833,9 +1833,9 @@ self.onmessage = function(e){
       totalQty += q; totalNominal += tot; totalProfit += pr;
     });
 
-    const widths = [42, 82, 135, 72, 120, 140, 160, 52, 62, 88, 100, 78, 100, 122, 130, 94];
+    const widths = [42, 82, 135, 72, 120, 140, 160, 52, 62, 88, 100, 78, 100, 100, 105, 94];
     const totalWidth = widths.reduce((a,b)=>a+b, 0);
-    const head = ['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','Harga Beli','HARGA JUAL','DISC','TOTAL','NOMINAL FAKTUR','PROFIT PER FAKTUR','PEMBAYARAN'];
+    const head = ['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','Harga Beli','HARGA JUAL','DISC','TOTAL','NOM FAKTUR','PROFIT/FAKTUR','PEMBAYARAN'];
     const colgroup = '<colgroup>' + widths.map(w => '<col style="width:' + w + 'px">').join('') + '</colgroup>';
 
     const totalLines = src.length;
@@ -2160,8 +2160,8 @@ self.onmessage = function(e){
     const pageRows = sliceRekap('s6', allRows);
     const base = (rekapPage.s6 || 0) * REKAP_PAGE_SIZE;
 
-    const head = ['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','Harga Beli','HARGA JUAL','DISC','TOTAL','HPP','NOMINAL FAKTUR','PROFIT PER FAKTUR','PEMBAYARAN'];
-    const widths = [42, 82, 135, 72, 120, 140, 160, 52, 62, 88, 100, 78, 100, 95, 122, 130, 94];
+    const head = ['NO','TANGGAL','NO. FAKTUR','SALES','CUSTOMER','ALAMAT','PRODUK','QTY','SATUAN','Harga Beli','HARGA JUAL','DISC','TOTAL','HPP','NOM FAKTUR','PROFIT/FAKTUR','PEMBAYARAN'];
+    const widths = [42, 82, 135, 72, 120, 140, 160, 52, 62, 88, 100, 78, 100, 95, 100, 105, 94];
     const totalWidth = widths.reduce((a,b)=>a+b, 0);
     const colgroup = '<colgroup>' + widths.map(w => '<col style="width:' + w + 'px">').join('') + '</colgroup>';
 
